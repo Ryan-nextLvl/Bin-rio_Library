@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bin-rio Library // Projetos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'hacker-black':       '#0A0A0A',
+            'hacker-card':        '#0F0F0F',
+            'hacker-border':      '#1F1F1F',
+            'hacker-green-light': '#C0FFC0',
+            'hacker-neon':        '#00FF41',
+            'hacker-binary':      '#00CC33',
+          },
+          fontFamily: {
+            mono: ['"Fira Code"', '"Courier New"', 'monospace'],
+          },
+          boxShadow: {
+            neon:       '0 0 8px #00FF41, 0 0 20px #00FF4166',
+            'neon-lg':  '0 0 16px #00FF41, 0 0 40px #00FF4144',
+          },
+          keyframes: {
+            blink: { '0%,100%': { opacity: 1 }, '50%': { opacity: 0 } },
+          },
+          animation: {
+            blink: 'blink 1s step-end infinite',
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Canvas binário ocupa toda a tela por baixo de tudo ── */
+    #binary-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* ── Cursor piscante no efeito de digitação ── */
+    #typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: #00FF41;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      animation: blinkCursor 1s step-end infinite;
+    }
+    @keyframes blinkCursor { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── Linha do tempo ── */
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.55rem;
+      top: 0.35rem;
+      width: 0.65rem;
+      height: 0.65rem;
+      border-radius: 50%;
+      background: #00FF41;
+      box-shadow: 0 0 6px #00FF41;
+    }
+    .timeline-line {
+      position: absolute;
+      left: -1.25rem;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, #00FF41, #00CC3322);
+    }
+  </style>
+</head>
+
+<body class="bg-hacker-black font-mono text-hacker-green-light min-h-screen relative">
+
+  <!-- ══ CANVAS: chuva de binários no fundo ══ -->
+  <canvas id="binary-canvas"></canvas>
+
+  <!-- ══ HEADER ══ -->
+  <header class="border-b border-hacker-border py-6 px-6 md:px-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 relative z-10">
+    <div>
+      <!-- Efeito de digitação aplicado aqui -->
+      <div class="text-hacker-neon text-xl font-bold tracking-widest">
+        &gt;_ <span id="typing-text"></span><span id="typing-cursor"></span>
+      </div>
+      <p class="text-hacker-binary text-xs mt-1 tracking-widest">// repositório de projetos</p>
+    </div>
+    <div class="text-hacker-binary text-xs">
+      <span id="clock"></span>
+    </div>
+  </header>
+
+  <!-- ══ MAIN ══ -->
+  <main class="relative z-10 px-6 md:px-12 py-10">
+
+    <!-- Prompt de listagem -->
+    <div class="mb-8">
+      <p class="text-hacker-binary text-sm">
+        <span class="text-hacker-neon">$</span> ls -la projetos/
+        <span class="text-hacker-green-light opacity-60">// {{ projetos|length }} item(s) encontrado(s)</span>
+      </p>
+    </div>
+
+    {% if projetos %}
+    <!-- ── Grid de Projetos ── -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for projeto in projetos %}
+      <div class="bg-hacker-card border border-hacker-border rounded-sm p-6 flex flex-col justify-between
+                  transition-all duration-300 ease-in-out hover:border-hacker-neon hover:shadow-neon group">
+        <!-- Card Header -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-hacker-neon text-xs">[PROJ_{{ forloop.counter|stringformat:"03d" }}]</span>
+            {% if projeto.visitas >= 100 %}
+              <span class="text-xs">🔥</span>
+            {% endif %}
+          </div>
+          <h2 class="text-hacker-green-light font-bold text-lg group-hover:text-hacker-neon transition-colors duration-200">
+            {{ projeto.nome }}
+          </h2>
+          {% if projeto.tecnologias %}
+          <p class="text-hacker-binary text-xs mt-2 opacity-70">// {{ projeto.tecnologias }}</p>
+          {% endif %}
+          <p class="text-hacker-green-light opacity-60 text-sm mt-3 leading-relaxed">
+            {{ projeto.descricao }}
+          </p>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="mt-6 flex items-center justify-between">
+          <span class="text-hacker-binary text-xs opacity-60">
+            <span class="text-hacker-neon">👁</span> {{ projeto.visitas }} visita(s)
+          </span>
+          {% if projeto.url_site %}
+          <a href="{% url 'registrar_visita' projeto.id %}"
+             class="inline-block border border-hacker-neon text-hacker-neon text-xs font-bold
+                    px-4 py-2 tracking-widest transition-all duration-200
+                    hover:bg-hacker-neon hover:text-hacker-black hover:shadow-neon">
+            &gt; ACESSAR
+          </a>
+          {% else %}
+          <span class="text-hacker-binary text-xs opacity-40 italic">// sem URL</span>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-24">
+      <p class="text-hacker-binary text-4xl mb-4">[ ]</p>
+      <p class="text-hacker-green-light opacity-40 text-sm">// nenhum projeto encontrado</p>
+      <p class="text-hacker-binary text-xs mt-2 opacity-30">$ find . -name "*.projeto" → 0 results</p>
+    </div>
+    {% endif %}
+
+    <!-- ══ SEÇÃO: CURRÍCULO / TIMELINE ══ -->
+    <section class="mt-24">
+      <div class="mb-10">
+        <p class="text-hacker-binary text-sm mb-1">
+          <span class="text-hacker-neon">$</span> cat resume.json
+        </p>
+        <h2 class="text-hacker-neon text-2xl font-bold tracking-widest">EXPERIÊNCIAS</h2>
+        <div class="h-px bg-hacker-border mt-4"></div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="relative pl-8">
+        <div class="timeline-line"></div>
+
+        <!-- Item 1 -->
+        <div class="relative timeline-item mb-10">
+          <span class="text-hacker-binary text-xs">2024 → presente</span>
+          <h3 class="text-hacker-neon font-bold mt-1">Desenvolvedor Back-end</h3>
+          <p class="text-hacker-green-light opacity-70 text-xs mt-0.5">Empresa XYZ &nbsp;|&nbsp; Python · Django · PostgreSQL</p>
+          <p class="text-hacker-green-light opacity-50 text-sm mt-2 leading-relaxed">
+            Desenvolvimento e manutenção de APIs REST, automação de processos internos e integração com serviços externos.
+          </p>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="relative timeline-item mb-10">
+          <span class="text-hacker-binary text-xs">2022 → 2024</span>
+          <h3 class="text-hacker-neon font-bold mt-1">Desenvolvedor Full-stack Jr.</h3>
+          <p class="text-hacker-green-light opacity-70 text-xs mt-0.5">Freelancer &nbsp;|&nbsp; Django · React · Tailwind</p>
+          <p class="text-hacker-green-light opacity-50 text-sm mt-2 leading-relaxed">
+            Criação de sistemas web sob demanda para pequenas e médias empresas, com foco em UX e performance.
+          </p>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="relative timeline-item">
+          <span class="text-hacker-binary text-xs">2021 → 2022</span>
+          <h3 class="text-hacker-neon font-bold mt-1">Estudos &amp; Projetos Pessoais</h3>
+          <p class="text-hacker-green-light opacity-70 text-xs mt-0.5">Autodidata &nbsp;|&nbsp; Python · Automação · Bots</p>
+          <p class="text-hacker-green-light opacity-50 text-sm mt-2 leading-relaxed">
+            Imersão em programação com foco em automação, web scraping e desenvolvimento de ferramentas internas.
+          </p>
+        </div>
+      </div>
+
+      <!-- Botão Download CV -->
+      <div class="mt-12 flex justify-center">
+        <a href="#"
+           class="relative inline-flex items-center gap-3 border border-hacker-neon text-hacker-neon
+                  font-bold px-8 py-3 tracking-widest text-sm
+                  hover:bg-hacker-neon hover:text-hacker-black hover:shadow-neon
+                  transition-all duration-200 group">
+          <!-- Anel de pulso neon -->
+          <span class="absolute inset-0 rounded-sm border border-hacker-neon animate-pulse opacity-50 pointer-events-none"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 3v12"/>
+          </svg>
+          &gt; DOWNLOAD CV
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="relative z-10 border-t border-hacker-border mt-24 py-4 px-8 text-center text-hacker-binary text-xs opacity-40">
+    bin-rio_library &nbsp;|&nbsp; {{ projetos|length }} projetos carregados
+  </footer>
+
+  <!-- ══ SCRIPTS ══ -->
+  <script>
+    /* ── Relógio UTC ── */
+    const clockEl = document.getElementById('clock');
+    setInterval(() => {
+      clockEl.textContent = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+    }, 1000);
+
+    /* ── Efeito de Digitação (Typing Effect) ── */
+    (() => {
+      const el = document.getElementById('typing-text');
+      const phrases = ['BIN-RIO LIBRARY', 'RYAN.DEV', 'HACK THE PLANET', 'PROJETOS // v2.0'];
+      let phraseIdx = 0, charIdx = 0, deleting = false;
+
+      function type() {
+        const phrase = phrases[phraseIdx];
+        if (!deleting) {
+          el.textContent = phrase.slice(0, ++charIdx);
+          if (charIdx === phrase.length) {
+            deleting = true;
+            setTimeout(type, 2000);
+            return;
+          }
+          setTimeout(type, 80);
+        } else {
+          el.textContent = phrase.slice(0, --charIdx);
+          if (charIdx === 0) {
+            deleting = false;
+            phraseIdx = (phraseIdx + 1) % phrases.length;
+            setTimeout(type, 400);
+            return;
+          }
+          setTimeout(type, 40);
+        }
+      }
+      type();
+    })();
+
+    /* ── Chuva Binária no Canvas ── */
+    (() => {
+      const canvas  = document.getElementById('binary-canvas');
+      const ctx     = canvas.getContext('2d');
+      const FONT_SZ = 13;
+      let cols, drops;
+
+      function init() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        cols  = Math.floor(canvas.width / FONT_SZ);
+        drops = Array.from({ length: cols }, () => Math.random() * -50);
+      }
+
+      function draw() {
+        // Rastro com fundo semi-transparente
+        ctx.fillStyle = 'rgba(10,10,10,0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#00CC33';
+        ctx.font      = `${FONT_SZ}px "Fira Code", monospace`;
+
+        drops.forEach((y, i) => {
+          const bit = Math.random() > 0.5 ? '1' : '0';
+          const x   = i * FONT_SZ;
+          // Cabeça da gota brilha em neon
+          ctx.fillStyle = y < 1 ? '#00FF41' : `rgba(0,204,51,${Math.random() * 0.5 + 0.05})`;
+          ctx.fillText(bit, x, y * FONT_SZ);
+          if (y * FONT_SZ > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i] += 0.5;
+        });
+      }
+
+      init();
+      window.addEventListener('resize', init);
+      setInterval(draw, 50);
+    })();
+  </script>
+
+</body>
+</html>
