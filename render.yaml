@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: bin-rio-library
+    runtime: python
+    buildCommand: ./build.sh
+    startCommand: gunicorn core.wsgi:application
+    plan: free
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: ALLOWED_HOSTS
+        value: "bin-rio-library.onrender.com,localhost"

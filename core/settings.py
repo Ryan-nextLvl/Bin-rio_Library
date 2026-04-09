@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ── Segurança ────────────────────────────────────────────────────────────────
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,.onrender.com', cast=Csv())
 
 # ── Apps ─────────────────────────────────────────────────────────────────────
 INSTALLED_APPS = [
@@ -86,6 +86,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+WHITENOISE_ROOT = BASE_DIR / 'frontend' / 'dist'
+
+# CSRF / CORS for SPA
+CSRF_COOKIE_HTTPONLY = False
+CORS_ALLOW_ALL_ORIGINS = True  # for dev
 
 # ── Segurança extra (ativa apenas em produção) ────────────────────────────────
 if not DEBUG:

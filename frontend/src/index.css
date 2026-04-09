@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-hacker-black: #0A0A0A;
+  --color-hacker-card: #0F0F0F;
+  --color-hacker-border: #1F1F1F;
+  --color-hacker-neon: #00FF41;
+  --color-hacker-binary: #00CC33;
+  --color-hacker-green-light: #C0FFC0;
+  --font-mono: "Fira Code", "Courier New", monospace;
+}
+
+body {
+  background-color: #0A0A0A;
+  font-family: "Fira Code", "Courier New", monospace;
+  color: #C0FFC0;
+}
+
+#binary-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: #00FF41;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: blinkCursor 1s step-end infinite;
+}
+
+@keyframes blinkCursor { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.55rem;
+  top: 0.35rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: #00FF41;
+  box-shadow: 0 0 6px #00FF41;
+}
+
+.timeline-line {
+  position: absolute;
+  left: -1.25rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, #00FF41, rgba(0,204,51,0.1));
+}
