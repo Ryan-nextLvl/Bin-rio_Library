@@ -185,9 +185,6 @@ export default function App() {
             <a href={SOCIAL.whatsapp} target="_blank" rel="noreferrer" className="btn-neon btn-neon-ghost">
               <WhatsAppIcon /> WHATSAPP
             </a>
-            <a href={SOCIAL.cv} className="btn-neon btn-neon-ghost">
-              <DownloadIcon /> DOWNLOAD CV
-            </a>
           </div>
         </div>
       </section>
@@ -311,15 +308,7 @@ export default function App() {
           </div>
 
           <div className="mt-12 flex justify-start">
-            <a
-              href={SOCIAL.cv}
-              className="btn-neon relative"
-              style={{ fontSize: '0.75rem', padding: '0.6rem 1.5rem' }}
-            >
-              <span className="absolute inset-0 border animate-pulse pointer-events-none" style={{ borderColor: '#00FF41', opacity: 0.3 }} />
-              <DownloadIcon /> &gt; DOWNLOAD CV
-            </a>
-          </div>
+            </div>
         </section>
       </main>
 
