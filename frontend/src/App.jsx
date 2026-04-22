@@ -152,14 +152,12 @@ export default function App() {
           <p className="section-label mb-2">$ whoami</p>
           <h1 className="glitch-text text-4xl md:text-6xl font-bold tracking-widest leading-tight mb-6" style={{ color: '#00FF41' }}>
             RYAN<br />
-            <span style={{ color: '#C0FFC0', fontSize: '0.55em' }}>FULL-STACK DEVELOPER</span>
+            <span style={{ color: '#C0FFC0', fontSize: '0.55em' }}>DEVELOPER EM FORMAÇÃO</span>
           </h1>
           <p className="text-sm leading-relaxed max-w-2xl mb-8" style={{ color: 'rgba(192,255,192,0.65)' }}>
-            Desenvolvedor apaixonado por automação, sistemas robustos e interfaces que impressionam.
-            Especializado em <span style={{ color: '#00FF41' }}>Python/Django</span>,{' '}
-            <span style={{ color: '#00FF41' }}>React</span> e{' '}
-            <span style={{ color: '#00FF41' }}>RPA</span>.
-            Transformo problemas complexos em código limpo e eficiente.
+            Estudante de Engenharia de Software focado em backend com{' '}
+            <span style={{ color: '#00FF41' }}>Python/Django</span> e automação.
+            Construindo projetos reais e evoluindo para fullstack.
           </p>
 
           {/* Stats */}
