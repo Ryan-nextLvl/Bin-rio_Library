@@ -5,37 +5,55 @@ export function useBinaryRain(canvasRef) {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
-    const FONT_SZ = 13
-    let cols, drops
+    const FONT_SZ = 14
+    const STEP = 2       // render every other column — halves GPU load
+    const FPS = 20
+    const FRAME_MS = 1000 / FPS
+    let cols, drops, raf, last = 0
 
     function init() {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
-      cols = Math.floor(canvas.width / FONT_SZ)
-      drops = Array.from({ length: cols }, () => Math.random() * -50)
+      cols = Math.ceil(canvas.width / (FONT_SZ * STEP))
+      drops = Array.from({ length: cols }, () => Math.random() * -60)
     }
 
-    function draw() {
-      ctx.fillStyle = 'rgba(10,10,10,0.05)'
+    function draw(ts) {
+      raf = requestAnimationFrame(draw)
+      if (ts - last < FRAME_MS) return
+      last = ts
+
+      ctx.fillStyle = 'rgba(10,10,10,0.06)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.font = `${FONT_SZ}px "Fira Code", monospace`
-      drops.forEach((y, i) => {
-        const bit = Math.random() > 0.5 ? '1' : '0'
-        const x = i * FONT_SZ
-        ctx.fillStyle = y < 1 ? '#00FF41' : `rgba(0,204,51,${Math.random() * 0.5 + 0.05})`
-        ctx.fillText(bit, x, y * FONT_SZ)
-        if (y * FONT_SZ > canvas.height && Math.random() > 0.975) drops[i] = 0
-        drops[i] += 0.5
-      })
+
+      for (let i = 0; i < cols; i++) {
+        const y = drops[i]
+        const px = i * FONT_SZ * STEP
+        const py = y * FONT_SZ
+
+        if (y < 1) {
+          ctx.fillStyle = '#00FF41'
+        } else {
+          const alpha = 0.05 + Math.random() * 0.4
+          ctx.fillStyle = `rgba(0,204,51,${alpha})`
+        }
+
+        ctx.fillText(Math.random() > 0.5 ? '1' : '0', px, py)
+
+        if (py > canvas.height && Math.random() > 0.975) drops[i] = 0
+        else drops[i] += 0.5
+      }
     }
 
     init()
-    window.addEventListener('resize', init)
-    const interval = setInterval(draw, 50)
+    const onResize = () => { cancelAnimationFrame(raf); init(); raf = requestAnimationFrame(draw) }
+    window.addEventListener('resize', onResize)
+    raf = requestAnimationFrame(draw)
 
     return () => {
-      clearInterval(interval)
-      window.removeEventListener('resize', init)
+      cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onResize)
     }
   }, [canvasRef])
 }

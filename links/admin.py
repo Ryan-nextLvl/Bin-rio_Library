@@ -6,12 +6,18 @@ from .models import Projeto
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'tecnologias', 'status_cliques', 'visitas', 'url_site', 'criado_em')
-    list_editable = ('url_site',)
+    list_display = ('nome', 'tecnologias', 'destaque', 'status_cliques', 'visitas', 'url_site', 'url_github', 'criado_em')
+    list_editable = ('url_site', 'url_github', 'destaque')
+    list_filter = ('destaque',)
     search_fields = ('nome', 'tecnologias')
     list_per_page = 20
     readonly_fields = ('visitas', 'criado_em')
-    ordering = ('-criado_em',)
+    ordering = ('-destaque', '-criado_em')
+    fieldsets = (
+        (None, {'fields': ('nome', 'descricao', 'tecnologias', 'destaque')}),
+        ('Links', {'fields': ('url_site', 'url_github', 'imagem_url')}),
+        ('Stats', {'fields': ('visitas', 'criado_em')}),
+    )
 
     @admin.display(description='Popularidade')
     def status_cliques(self, obj):

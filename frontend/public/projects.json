@@ -1,0 +1,40 @@
+{
+  "projetos": [
+    {
+      "id": 1,
+      "nome": "Bin-rio Library",
+      "descricao": "Portfólio interativo com tema Dark Hacker. Chuva de binários animada, efeito de digitação, contador de visitas por projeto e linha do tempo de experiências. Construído com Django + React + Tailwind.",
+      "tecnologias": "Django, React, Tailwind CSS, SQLite, Vite",
+      "url_site": "https://github.com/Ryan-nextLvl/Bin-rio_Library",
+      "url_github": "https://github.com/Ryan-nextLvl/Bin-rio_Library",
+      "imagem_url": "",
+      "destaque": true,
+      "visitas": 0,
+      "criado_em": "2024-01-01T00:00:00"
+    },
+    {
+      "id": 2,
+      "nome": "Bot E-mail SEFAZ",
+      "descricao": "RPA que automatiza o acesso ao portal da SEFAZ, extrai e-mails fiscais, processa documentos e exibe tudo em um dashboard Django com autenticação por cargo.",
+      "tecnologias": "Python, Django, Playwright, RPA, PostgreSQL",
+      "url_site": "",
+      "url_github": "https://github.com/Ryan-nextLvl",
+      "imagem_url": "",
+      "destaque": true,
+      "visitas": 0,
+      "criado_em": "2024-02-01T00:00:00"
+    },
+    {
+      "id": 3,
+      "nome": "WhatsApp Sales Bot",
+      "descricao": "Bot de vendas para WhatsApp com integração ao Mercado Pago, controle de pedidos via Google Sheets e fluxo conversacional automatizado.",
+      "tecnologias": "Node.js, WhatsApp Web.js, Mercado Pago API, Google Sheets",
+      "url_site": "",
+      "url_github": "https://github.com/Ryan-nextLvl",
+      "imagem_url": "",
+      "destaque": false,
+      "visitas": 0,
+      "criado_em": "2024-03-01T00:00:00"
+    }
+  ]
+}

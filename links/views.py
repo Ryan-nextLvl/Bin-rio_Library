@@ -19,7 +19,8 @@ def registrar_visita(request, projeto_id):
 def api_projetos(request):
     projetos = list(Projeto.objects.values(
         'id', 'nome', 'descricao', 'tecnologias',
-        'url_site', 'imagem_url', 'visitas', 'criado_em'
+        'url_site', 'url_github', 'imagem_url',
+        'destaque', 'visitas', 'criado_em'
     ))
     for p in projetos:
         p['criado_em'] = p['criado_em'].isoformat()

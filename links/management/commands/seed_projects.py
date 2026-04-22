@@ -16,37 +16,43 @@ from links.models import Projeto, PLACEHOLDER
 # ──────────────────────────────────────────────────────────────
 DATA = [
     {
-        'nome': 'Site Institucional',
-        'descricao': (
-            'Landing page institucional para empresa do setor de serviços. '
-            'Inclui seções de apresentação, portfólio de serviços, depoimentos '
-            'e formulário de contato integrado ao WhatsApp.'
-        ),
-        'tecnologias': 'Django, Tailwind CSS, SQLite, JavaScript',
-        'url_site': 'https://exemplo.com/site-institucional',
-        'imagem_url': 'https://placehold.co/600x400/0A0A0A/00FF41?text=Site+Institucional',
-    },
-    {
-        'nome': 'E-commerce',
-        'descricao': (
-            'Plataforma de vendas online com carrinho de compras, painel de '
-            'administração de pedidos e integração com gateway de pagamento. '
-            'Sistema de cupons e controle de estoque em tempo real.'
-        ),
-        'tecnologias': 'Django, Django REST Framework, React, PostgreSQL, Stripe',
-        'url_site': 'https://exemplo.com/ecommerce',
-        'imagem_url': 'https://placehold.co/600x400/0A0A0A/00FF41?text=E-commerce',
-    },
-    {
-        'nome': 'Portfólio Pessoal',
+        'nome': 'Bin-rio Library',
         'descricao': (
             'Portfólio interativo com tema Dark Hacker, exibindo projetos, '
             'linha do tempo de experiências e contador de visitas por projeto. '
             'Chuva de binários animada e efeito de digitação no cabeçalho.'
         ),
-        'tecnologias': 'Django, Tailwind CSS, JavaScript, SQLite',
+        'tecnologias': 'Django, React, Tailwind CSS, SQLite, Vite',
         'url_site': 'https://github.com/Ryan-nextLvl/Bin-rio_Library',
-        'imagem_url': 'https://placehold.co/600x400/0A0A0A/00FF41?text=Portfolio',
+        'url_github': 'https://github.com/Ryan-nextLvl/Bin-rio_Library',
+        'destaque': True,
+        'imagem_url': '',
+    },
+    {
+        'nome': 'Bot E-mail SEFAZ',
+        'descricao': (
+            'RPA que automatiza o acesso ao portal da SEFAZ, extrai e-mails '
+            'fiscais, processa documentos e exibe tudo em um dashboard Django '
+            'com autenticação por cargo.'
+        ),
+        'tecnologias': 'Python, Django, Playwright, RPA, PostgreSQL',
+        'url_site': '',
+        'url_github': 'https://github.com/Ryan-nextLvl',
+        'destaque': True,
+        'imagem_url': '',
+    },
+    {
+        'nome': 'WhatsApp Sales Bot',
+        'descricao': (
+            'Bot de vendas para WhatsApp com integração ao Mercado Pago, '
+            'controle de pedidos via Google Sheets e fluxo conversacional '
+            'automatizado com menu interativo.'
+        ),
+        'tecnologias': 'Node.js, WhatsApp Web.js, Mercado Pago, Google Sheets',
+        'url_site': '',
+        'url_github': 'https://github.com/Ryan-nextLvl',
+        'destaque': False,
+        'imagem_url': '',
     },
     # ── Adicione mais projetos abaixo neste formato: ──────────
     # {
@@ -54,6 +60,8 @@ DATA = [
     #     'descricao': 'Descrição do projeto.',
     #     'tecnologias': 'Python, Django',
     #     'url_site': 'https://meusite.com',
+    #     'url_github': 'https://github.com/Ryan-nextLvl/meu-projeto',
+    #     'destaque': False,
     #     'imagem_url': '',   # deixe vazio para usar o placeholder automático
     # },
 ]
@@ -97,6 +105,8 @@ class Command(BaseCommand):
                         'descricao':   item['descricao'],
                         'tecnologias': item.get('tecnologias', ''),
                         'url_site':    item.get('url_site', ''),
+                        'url_github':  item.get('url_github', ''),
+                        'destaque':    item.get('destaque', False),
                         'imagem_url':  item['imagem_url'],
                     },
                 )

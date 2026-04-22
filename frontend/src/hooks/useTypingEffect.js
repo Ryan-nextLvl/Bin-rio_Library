@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const PHRASES = ['BIN-RIO LIBRARY', 'RYAN.DEV', 'HACK THE PLANET', 'PROJETOS // v2.0']
+const PHRASES = ['RYAN.DEV', 'FULL-STACK DEV', 'HACK THE PLANET', 'BIN-RIO LIBRARY // v2']
 
 export function useTypingEffect() {
   const [text, setText] = useState('')

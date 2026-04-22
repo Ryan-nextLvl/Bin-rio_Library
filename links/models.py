@@ -8,12 +8,14 @@ class Projeto(models.Model):
     descricao = models.TextField()
     tecnologias = models.CharField(max_length=300, blank=True, help_text='Ex: Python, Django, React')
     url_site = models.URLField(blank=True, verbose_name='URL do site')
+    url_github = models.URLField(blank=True, verbose_name='URL do GitHub')
     imagem_url = models.URLField(blank=True, default=PLACEHOLDER, verbose_name='URL da imagem')
+    destaque = models.BooleanField(default=False, verbose_name='Projeto em destaque')
     visitas = models.PositiveIntegerField(default=0)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-criado_em']
+        ordering = ['-destaque', '-criado_em']
         verbose_name = 'Projeto'
         verbose_name_plural = 'Projetos'
 
