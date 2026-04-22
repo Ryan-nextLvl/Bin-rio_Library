@@ -6,9 +6,8 @@ export function useBinaryRain(canvasRef) {
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     const FONT_SZ = 14
-    const STEP = 2       // render every other column — halves GPU load
-    const FPS = 20
-    const FRAME_MS = 1000 / FPS
+    const STEP = 2
+    const FRAME_MS = 1000 / 20
     let cols, drops, raf, last = 0
 
     function init() {
@@ -32,13 +31,7 @@ export function useBinaryRain(canvasRef) {
         const px = i * FONT_SZ * STEP
         const py = y * FONT_SZ
 
-        if (y < 1) {
-          ctx.fillStyle = '#00FF41'
-        } else {
-          const alpha = 0.05 + Math.random() * 0.4
-          ctx.fillStyle = `rgba(0,204,51,${alpha})`
-        }
-
+        ctx.fillStyle = y < 1 ? '#00FF41' : `rgba(0,204,51,${0.05 + Math.random() * 0.4})`
         ctx.fillText(Math.random() > 0.5 ? '1' : '0', px, py)
 
         if (py > canvas.height && Math.random() > 0.975) drops[i] = 0
@@ -46,14 +39,21 @@ export function useBinaryRain(canvasRef) {
       }
     }
 
+    // Quando a aba volta a ficar visível, reseta o timer para evitar salto
+    function onVisibility() {
+      if (!document.hidden) last = 0
+    }
+
     init()
     const onResize = () => { cancelAnimationFrame(raf); init(); raf = requestAnimationFrame(draw) }
     window.addEventListener('resize', onResize)
+    document.addEventListener('visibilitychange', onVisibility)
     raf = requestAnimationFrame(draw)
 
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', onResize)
+      document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [canvasRef])
 }
