@@ -2,38 +2,41 @@
   "projetos": [
     {
       "id": 1,
-      "nome": "Bin-rio Library",
-      "descricao": "Portfólio interativo com tema Dark Hacker. Chuva de binários animada, efeito de digitação, contador de visitas por projeto e linha do tempo de experiências. Construído com Django + React + Tailwind.",
-      "tecnologias": "Django, React, Tailwind CSS, SQLite, Vite",
-      "url_site": "https://github.com/Ryan-nextLvl/Bin-rio_Library",
+      "nome": "Biblioteca de projetos",
+      "descricao": "Este site — portfólio interativo com tema Dark Hacker, chuva de binários animada e efeito de digitação.",
+      "tecnologias": "HTML, CSS, JS",
+      "url_site": "https://ryan-nextlvl.github.io/Bin-rio_Library/",
       "url_github": "https://github.com/Ryan-nextLvl/Bin-rio_Library",
       "imagem_url": "",
       "destaque": true,
       "visitas": 0,
+      "status": "Ativo",
       "criado_em": "2024-01-01T00:00:00"
     },
     {
       "id": 2,
-      "nome": "Bot E-mail SEFAZ",
-      "descricao": "RPA que automatiza o acesso ao portal da SEFAZ, extrai e-mails fiscais, processa documentos e exibe tudo em um dashboard Django com autenticação por cargo.",
-      "tecnologias": "Python, Django, Playwright, RPA, PostgreSQL",
+      "nome": "Sistema de pedidos web",
+      "descricao": "Sistema de pedidos com integração via WhatsApp, painel de administração e API REST.",
+      "tecnologias": "Django, API, WhatsApp",
       "url_site": "",
       "url_github": "https://github.com/Ryan-nextLvl",
       "imagem_url": "",
       "destaque": true,
       "visitas": 0,
+      "status": "Em desenvolvimento",
       "criado_em": "2024-02-01T00:00:00"
     },
     {
       "id": 3,
-      "nome": "WhatsApp Sales Bot",
-      "descricao": "Bot de vendas para WhatsApp com integração ao Mercado Pago, controle de pedidos via Google Sheets e fluxo conversacional automatizado.",
-      "tecnologias": "Node.js, WhatsApp Web.js, Mercado Pago API, Google Sheets",
+      "nome": "Automações com bots",
+      "descricao": "Bots de automação de processos com RPA e integração via Baileys para WhatsApp.",
+      "tecnologias": "Python, RPA, Baileys",
       "url_site": "",
       "url_github": "https://github.com/Ryan-nextLvl",
       "imagem_url": "",
       "destaque": false,
       "visitas": 0,
+      "status": "Funcional",
       "criado_em": "2024-03-01T00:00:00"
     }
   ]

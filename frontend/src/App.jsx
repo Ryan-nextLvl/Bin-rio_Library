@@ -13,25 +13,16 @@ const SKILLS = {
 
 const EXPERIENCES = [
   {
-    period: '2024 → presente',
-    role: 'Desenvolvedor Back-end',
-    company: 'Empresa XYZ',
-    tech: 'Python · Django · PostgreSQL',
-    desc: 'Desenvolvimento e manutenção de APIs REST, automação de processos internos e integração com serviços externos.',
-  },
-  {
-    period: '2022 → 2024',
-    role: 'Desenvolvedor Full-stack Jr.',
-    company: 'Freelancer',
-    tech: 'Django · React · Tailwind',
-    desc: 'Criação de sistemas web sob demanda para pequenas e médias empresas, com foco em UX e performance.',
-  },
-  {
-    period: '2021 → 2022',
-    role: 'Estudos & Projetos Pessoais',
-    company: 'Autodidata',
-    tech: 'Python · Automação · Bots',
-    desc: 'Imersão em programação com foco em automação, web scraping e desenvolvimento de ferramentas internas.',
+    period: '2024 → Atual',
+    role: 'Desenvolvedor em formação',
+    company: '',
+    tech: '',
+    bullets: [
+      'Desenvolvimento de projetos próprios',
+      'Criação de APIs e sistemas com Django',
+      'Automação de processos e integrações',
+      'Estudo contínuo em backend e frontend',
+    ],
   },
 ]
 
@@ -286,10 +277,23 @@ export default function App() {
               <div key={i} className="relative timeline-item mb-10">
                 <span className="text-xs" style={{ color: '#00CC33', opacity: 0.7 }}>{item.period}</span>
                 <h3 className="font-bold mt-1 tracking-wide" style={{ color: '#00FF41' }}>{item.role}</h3>
-                <p className="text-xs mt-0.5" style={{ color: 'rgba(192,255,192,0.6)' }}>
-                  {item.company} &nbsp;|&nbsp; <span style={{ color: '#00CC33' }}>{item.tech}</span>
-                </p>
-                <p className="text-sm mt-2 leading-relaxed" style={{ color: 'rgba(192,255,192,0.45)' }}>{item.desc}</p>
+                {(item.company || item.tech) && (
+                  <p className="text-xs mt-0.5" style={{ color: 'rgba(192,255,192,0.6)' }}>
+                    {item.company}{item.company && item.tech && <>&nbsp;|&nbsp;</>}
+                    <span style={{ color: '#00CC33' }}>{item.tech}</span>
+                  </p>
+                )}
+                {item.bullets ? (
+                  <ul className="mt-2 space-y-1">
+                    {item.bullets.map((b, j) => (
+                      <li key={j} className="text-xs flex gap-2" style={{ color: 'rgba(192,255,192,0.5)' }}>
+                        <span style={{ color: '#00FF41' }}>-</span> {b}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm mt-2 leading-relaxed" style={{ color: 'rgba(192,255,192,0.45)' }}>{item.desc}</p>
+                )}
               </div>
             ))}
           </div>
@@ -357,6 +361,15 @@ function ProjectCard({ projeto, idx, onAcessar, featured = false }) {
           ))}
           {techs.length > 4 && (
             <span className="tech-chip" style={{ cursor: 'default', opacity: 0.5 }}>+{techs.length - 4}</span>
+          )}
+          {projeto.status && (
+            <span className="tech-chip" style={{
+              cursor: 'default',
+              borderColor: projeto.status === 'Ativo' ? '#00FF41' : projeto.status === 'Funcional' ? '#00CC33' : '#1A1A1A',
+              color: projeto.status === 'Ativo' ? '#00FF41' : projeto.status === 'Funcional' ? '#00CC33' : 'rgba(192,255,192,0.4)',
+            }}>
+              {projeto.status === 'Ativo' ? '● ' : projeto.status === 'Funcional' ? '● ' : '○ '}{projeto.status}
+            </span>
           )}
         </div>
 
